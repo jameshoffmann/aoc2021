@@ -29,7 +29,7 @@ const solve = (draws, boards) => {
             removeWinners(boards)
             continue
         }
-        if (checkFinalBoard(boards[0])) return calculateScore(boards[0], draws[i])
+        if (isWinner(boards[0])) return calculateScore(boards[0], draws[i])
     }
 }
 
@@ -46,11 +46,7 @@ const markBoards = (boards, draw) => {
 const removeWinners = (boards) => {
     let indicesToRemove = []
     for (let i = 0; i < boards.length; i++) {
-        let isHorWinner = checkHorizontals(boards[i])
-        let isVertWinner = checkVerticals(boards[i])
-        if (isHorWinner || isVertWinner) {
-            indicesToRemove.push(i)
-        }
+        if (isWinner(boards[i])) indicesToRemove.push(i)
     }
     for (let i = indicesToRemove.length - 1; i >= 0; i--) {
         boards.splice(indicesToRemove[i], 1)
@@ -58,21 +54,19 @@ const removeWinners = (boards) => {
     return
 }
 
-const checkFinalBoard = (finalBoard) => {
-    let isHorWinner = checkHorizontals(finalBoard)
-    let isVertWinner = checkVerticals(finalBoard)
-    if (isHorWinner || isVertWinner) return true
+const isWinner = (board) => {
+    if (hasHorizontalBingo(board) || hasVerticalBingo(board)) return true
     return false
 }
 
-const checkHorizontals = (board) => {
+const hasHorizontalBingo = (board) => {
     for (const row of board) {
         if (row[0].marked && row[1].marked && row[2].marked && row[3].marked && row[4].marked) return true
     }
     return false
 }
 
-const checkVerticals = (board) => {
+const hasVerticalBingo = (board) => {
     for (let i = 0; i < 5; i++) {
         if (board[0][i].marked && board[1][i].marked && board[2][i].marked && board[3][i].marked && board[4][i].marked) return true
     }

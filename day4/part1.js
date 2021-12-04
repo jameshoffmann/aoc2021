@@ -44,21 +44,19 @@ const markBoards = (boards, draw) => {
 
 const findWinner = (boards) => {
     for (const board of boards) {
-        let isHorWinner = checkHorizontals(board)
-        let isVertWinner = checkVerticals(board)
-        if (isHorWinner || isVertWinner) return board
+        if (hasHorizontalBingo(board) || hasVerticalBingo(board)) return board
     }
     return null
 }
 
-const checkHorizontals = (board) => {
+const hasHorizontalBingo = (board) => {
     for (const row of board) {
         if (row[0].marked && row[1].marked && row[2].marked && row[3].marked && row[4].marked) return true
     }
     return false
 }
 
-const checkVerticals = (board) => {
+const hasVerticalBingo = (board) => {
     for (let i = 0; i < 5; i++) {
         if (board[0][i].marked && board[1][i].marked && board[2][i].marked && board[3][i].marked && board[4][i].marked) return true
     }
