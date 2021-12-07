@@ -1,12 +1,9 @@
-import {rl} from '../readfile.js'
+import {readFile} from '../readfile.js'
 
 const digitCount = 12
 
-const main = async () => {
-    let input = []
-    for await (const line of rl) {
-        input.push(line)
-    }
+const main = () => {
+    let input = readFile().split('\n')
     let co2List = input
     let oxygenList = input
 
