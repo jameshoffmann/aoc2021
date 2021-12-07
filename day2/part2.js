@@ -7,15 +7,11 @@ const main = async () => {
   for await (const line of rl) {
     let changeAmt = Number(line.slice(line.indexOf(' ')))
     switch(line[0]) {
-        case 'd':
-            aim = aim + changeAmt
-            break
-        case 'u': 
-            aim = aim - changeAmt
-            break
+        case 'd': aim += changeAmt; break
+        case 'u': aim -= changeAmt; break
         case 'f': 
-            x = x + changeAmt
-            y = y + aim * changeAmt
+            x += changeAmt
+            y += aim * changeAmt
             break
         default: break
     }

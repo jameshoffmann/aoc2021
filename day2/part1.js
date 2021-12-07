@@ -6,9 +6,9 @@ const main = async () => {
   for await (const line of rl) {
     let changeAmt = Number(line.slice(line.indexOf(' ')))
     switch(line[0]) {
-        case 'd': y = y + changeAmt; break;
-        case 'u': y = y - changeAmt; break;
-        case 'f': x = x + changeAmt; break;
+        case 'd': y += changeAmt; break;
+        case 'u': y -= changeAmt; break;
+        case 'f': x += changeAmt; break;
         default: break;
     }
   }
