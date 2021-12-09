@@ -1,10 +1,6 @@
 import {readFile} from "../readfile.js"
 import {difference, intersection} from "../sets.js"
 
-String.prototype.replaceAt = function(index, replacement) {
-    return this.substr(0, index) + replacement + this.substr(index + replacement.length);
-}
-
 const main = () => {
     let input = parseInput()
     const numberSegmentMappings = ['1110111', '0010010', '1011101', '1011011', '0111010', '1101011', '1101111', '1010010', '1111111', '1111011']
@@ -75,15 +71,13 @@ const main = () => {
                     break
                 }
             }
-
-            
         }
         total += Number(decodedNumbers.join(""))
     }
     console.log(total)
 }
 
-function setCharAt(str,index,chr) {
+const setCharAt = (str,index,chr) => {
     if(index > str.length-1) return str;
     return str.substring(0,index) + chr + str.substring(index+1);
 }
