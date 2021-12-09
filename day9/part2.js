@@ -2,16 +2,16 @@ import {readFile} from '../readfile.js'
 import {Queue} from '../queue.js'
 
 const main = () => {
-    let input = readFile().split('\r\n').map(el => el.split("").map(el => { return {height: Number(el), explored: false, isPartOfBasin: false} }))
+    let input = readFile().split('\r\n').map(el => el.split("").map(el => Number(el)))
 
     const isLocalMin = (row, col) => {
-        let val = input[row][col].height
+        let val = input[row][col]
 
         let leftVal, rightVal, belowVal, aboveVal
-        input[row][col-1] !== undefined ? leftVal = input[row][col-1].height : leftVal = 9
-        input[row][col+1] !== undefined ? rightVal = input[row][col+1].height : rightVal = 9
-        input[row+1] !== undefined ? belowVal = input[row+1][col].height : belowVal = 9
-        input[row-1] !== undefined ? aboveVal = input[row-1][col].height : aboveVal = 9
+        input[row][col-1] !== undefined ? leftVal = input[row][col-1] : leftVal = 9
+        input[row][col+1] !== undefined ? rightVal = input[row][col+1] : rightVal = 9
+        input[row+1] !== undefined ? belowVal = input[row+1][col] : belowVal = 9
+        input[row-1] !== undefined ? aboveVal = input[row-1][col] : aboveVal = 9
 
         if (val < leftVal && val < rightVal && val < belowVal && val < aboveVal) return true
         return false
@@ -19,33 +19,28 @@ const main = () => {
 
     const getSurroundingBasinPositions = (row, col) => {
         let surroundingBasinPositions = []
-        let val = input[row][col].height
+        let val = input[row][col]
 
         let leftVal = input[row][col-1] ?? null
-        if (leftVal) {
-            if (val < leftVal.height && leftVal.height !== 9) {
-                surroundingBasinPositions.push({row: row, col: col-1})
-            }
+        if (leftVal && val < leftVal && leftVal !== 9) {
+            surroundingBasinPositions.push({row: row, col: col-1})
         }
+
         let rightVal = input[row][col+1] ?? null
-        if (rightVal) {
-            if (val < rightVal.height && rightVal.height !== 9) {
-                surroundingBasinPositions.push({row: row, col: col+1})
-            }
-        }
+        if (rightVal && val < rightVal && rightVal !== 9) {
+            surroundingBasinPositions.push({row: row, col: col+1})
+        } 
+
         let belowVal
         input[row+1] !== undefined ? belowVal = input[row+1][col] : null
-        if (belowVal) {
-            if (val < belowVal.height && belowVal.height !== 9) {
-                surroundingBasinPositions.push({row: row+1, col: col})
-            }
+        if (belowVal && val < belowVal && belowVal !== 9) {
+            surroundingBasinPositions.push({row: row+1, col: col})
         }
+
         let aboveVal
         input[row-1] !== undefined ? aboveVal = input[row-1][col] : null
-        if (aboveVal) {
-            if (val < aboveVal.height && aboveVal.height !== 9) {
+        if (aboveVal && val < aboveVal && aboveVal !== 9) {
                 surroundingBasinPositions.push({row: row-1, col: col})
-            }
         }
 
         return surroundingBasinPositions
@@ -70,8 +65,6 @@ const main = () => {
         while (!q.isEmpty()) {
             let pos = q.dequeue()
             basin.add(JSON.stringify({row: pos.row, col: pos.col}))
-            input[pos.row][pos.col].explored = true
-            input[pos.row][pos.col].isPartOfBasin = true
             
             let surroundingBasinPositions = getSurroundingBasinPositions(pos.row, pos.col)
             for (const surroundingBasinPos of surroundingBasinPositions) {
